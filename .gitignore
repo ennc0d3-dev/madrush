@@ -63,8 +63,7 @@ test/**/*.tar
 test/**/*.[wj]ar
 **/helm-build/
 
-# bob
-.bob
+buildgen/
 
 **/.vagrant/
 **/.venv/

@@ -1,0 +1,12 @@
+---
+blacklist:
+  - GPL-2.0
+
+whitelist:
+  - Apache-2.0
+  - MIT
+  - BSD-3-Clause
+
+exceptions:
+  - github.com/jessevdk/go-flags
+  - github.com/pmezard/go-difflib/difflib

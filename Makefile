@@ -48,7 +48,13 @@ get.tools:
 ## Generate go code
 generate:
 	@echo "==> generating go code"
-	GOFLAGS=-mod=vendor $(GO) generate $(pkgs)
+	@docker run  --user $(id -u):$(id -g) --rm -v ${PWD}:/local openapitools/openapi-generator-cli generate \
+		--generator-name go-server \
+		--git-repo-id madrush \
+		--git-user-id ennc0d3 \
+		--additional-properties=packageName=openapi \
+		--output /local/buildgen \
+		-i /local/api/madrush-api.yaml
 
 #-------------------------
 # Checks
@@ -98,6 +104,10 @@ endif
 ## Build all binaries
 build:
 	$(GO) build -o bin/madrush cmd/server.go
+
+## test all binaries
+test:
+	tests/run.sh
 
 ## Compress all binaries
 pack:
@@ -178,7 +188,8 @@ help:
 .PHONY: swagger.validate
 
 swagger.validate:
-	swagger validate pkg/swagger/swagger.yml
+	@docker run  --user $(id -u):$(id -g) --rm -v ${PWD}:/local openapitools/openapi-generator-cli validate \
+		-i /local/api/madrush-api.yaml
 
 #-------------------------
 # Target: swagger.doc
@@ -186,4 +197,4 @@ swagger.validate:
 .PHONY: swagger.doc
 
 swagger.doc:
-	docker run -i yousan/swagger-yaml-to-html < pkg/swagger/swagger.yml > doc/index.html
+	docker run -i yousan/swagger-yaml-to-html < api/madrush-api.yml > doc/index.html
