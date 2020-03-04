@@ -10,14 +10,18 @@
 package main
 
 import (
-	"log"
 	"net/http"
+	"sync"
 
 	openapi "github.com/ennc0d3/madrush/internal/api"
+	"github.com/ennc0d3/madrush/internal/handlers"
+	log "github.com/ennc0d3/madrush/internal/logger"
 )
 
+func init() {
+}
+
 func main() {
-	log.Printf("Server started")
 
 	SubscriberApiService := openapi.NewSubscriberApiService()
 	SubscriberApiController := openapi.NewSubscriberApiController(SubscriberApiService)
@@ -27,5 +31,22 @@ func main() {
 
 	router := openapi.NewRouter(SubscriberApiController, SubscribersApiController)
 
-	log.Fatal(http.ListenAndServe(":8080", router))
+	go startAuxilaryServices()
+
+	log.Log("Starting server")
+	log.Fatal(http.ListenAndServe(":9111", router))
+}
+
+func startAuxilaryServices() {
+	wg := sync.WaitGroup{}
+	wg.Add(1)
+	healthcheck, err := handlers.NewHealthCheckService()
+	if err != nil {
+		log.Fatal(err)
+	}
+	if err := healthcheck.Start(); err != nil {
+		log.Log(err)
+		wg.Done()
+	}
+	wg.Wait()
 }

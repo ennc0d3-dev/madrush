@@ -69,3 +69,4 @@ buildgen/
 **/.venv/
 **/.env/
 **/.idea/
+./bin/madrush
