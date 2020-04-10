@@ -40,10 +40,8 @@ func (h *HealthCheckService) Restart() error {
 }
 func healthHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(200)
-	w.Write([]byte(`OK`))
 }
 
 func livenessHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(200)
-	w.Write([]byte(`OK`))
 }

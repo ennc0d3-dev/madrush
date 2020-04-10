@@ -12,6 +12,7 @@ package main
 import (
 	"net/http"
 	"sync"
+	"fmt"
 
 	openapi "github.com/ennc0d3/madrush/internal/api"
 	"github.com/ennc0d3/madrush/internal/handlers"
@@ -34,7 +35,7 @@ func main() {
 	go startAuxilaryServices()
 
 	log.Log("Starting server")
-	log.Fatal(http.ListenAndServe(":9111", router))
+    log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", servicePort), router))
 }
 
 func startAuxilaryServices() {
