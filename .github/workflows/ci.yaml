@@ -17,12 +17,18 @@ jobs:
 
       - name: Check out code
         uses: actions/checkout@v1
+        
+      - name: GolangCI-Linter
+        uses: Mushus/golangci-linter@v1.1.2
+        with:
+         # Path of the GolangCI-Lint config file
+         config: # optional
+         # Path of the Golang project root directory
+         basePath: # optional, default is .
 
-      - name: Lint Go Code
-        run: |
-          export PATH=$PATH:$(go env GOPATH)/bin # temporary fix. See https://github.com/actions/setup-go/issues/14
-          go get -u golang.org/x/lint/golint 
-          make lint
+      - name: Lint code
+        run:  make lint
+          
           
   test:
     name: Test
