@@ -106,6 +106,10 @@ build:
 	$(GO) build -o bin/madrush cmd/server.go
 
 ## test all binaries
+unittest:
+	$(GO) test -v -covermode=count -coverprofile coverage.txt ./...
+
+## test all binaries
 test:
 	tests/run.sh
 
