@@ -9,13 +9,7 @@
 
 package openapi
 
-type Subscriber struct {
+type SubscriptionType struct {
 
-	Id int64 `json:"id"`
-
-	Name string `json:"name"`
-
-	Tag string `json:"tag,omitempty"`
-
-	SubsType SubscriptionType `json:"subsType,omitempty"`
+	SubsType int64 `json:"subsType"`
 }

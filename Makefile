@@ -1,6 +1,8 @@
 GO   := go
 
-DIRS_TO_CLEAN:=
+GENERATOR_OUTDIR_NAME:=buildgen
+
+DIRS_TO_CLEAN:=${GENERATOR_OUTDIR_NAME}
 FILES_TO_CLEAN:=
 
 ifeq ($(origin GO), undefined)
@@ -53,7 +55,7 @@ generate:
 		--git-repo-id madrush \
 		--git-user-id ennc0d3 \
 		--additional-properties=packageName=openapi \
-		--output /local/buildgen \
+		--output /local/${GENERATOR_OUTDIR_NAME} \
 		-i /local/api/madrush-api.yaml
 
 #-------------------------
@@ -155,7 +157,7 @@ clean: clean.go
 
 clean.go: ; $(info cleaning...)
 	$(eval GO_CLEAN_FLAGS := -i -r)
-	$(GO) clean $(GO_CLEAN_FLAGS)
+	$(GO) clean $(GO_CLEAN_FLAGS) ./...
 
 #-------------------------
 # Target: help

@@ -1,14 +1,11 @@
-FROM golang:1.10 AS build
+FROM golang:1.15 AS build
 WORKDIR /go/src
-COPY go ./go
-COPY main.go .
+COPY cmd/ internal/ vendor/ go.mod go.sum  ./
 
-ENV CGO_ENABLED=0
-RUN go get -d -v ./...
-
-RUN go build -a -installsuffix cgo -o openapi .
+RUN go mod download && \
+ go install  -v ./...
 
 FROM scratch AS runtime
-COPY --from=build /go/src/openapi ./
+COPY --from=build /go/bin/madrush ./madrush
 EXPOSE 8080/tcp
-ENTRYPOINT ["./openapi"]
+ENTRYPOINT ["./madrush"]

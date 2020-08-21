@@ -94,10 +94,19 @@ components:
           type: string
         tag:
           type: string
+        subsType:
+          $ref: "#/components/schemsas/SubscriptionType"
     Subscribers:
       type: array
       items:
         $ref: "#/components/schemas/Subscriber"
+    SubscriptionType:
+      required:
+        - subsType
+      properties:
+        subsType:
+          type: integer
+          format: int64
     Error:
       type: object
       required:
